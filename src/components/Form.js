@@ -27,6 +27,7 @@ export const Form = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(FormSchema),
