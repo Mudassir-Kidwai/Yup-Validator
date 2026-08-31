@@ -8,6 +8,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.8",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.2.0",
@@ -20,6 +23,7 @@
     "start": "react-scripts start",
     "server": "npm start --prefix backend",
     "build": "react-scripts build",
+    "vercel-build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

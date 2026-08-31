@@ -395,6 +395,87 @@ Joi validate middleware (backend)
 
 ---
 
+## Deploy for Users (Easiest: Vercel)
+
+The simplest way to share one public URL (frontend + Joi API together) is **Vercel**.
+
+### Option A — Deploy from GitHub (recommended)
+
+1. Push this project to a **GitHub** repository.
+2. Go to [vercel.com](https://vercel.com) and sign in.
+3. Click **Add New → Project** and import your repo.
+4. Vercel auto-detects Create React App. Keep these settings:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `build`
+5. Click **Deploy**.
+
+Your app will be live at a URL like:
+
+`https://your-project-name.vercel.app`
+
+Users open that link in a browser — no install needed. Form submit hits `/api/forms/*` on the same domain.
+
+**Important Vercel project settings** (Dashboard → Project → Settings → General):
+
+| Setting | Value |
+|---------|-------|
+| Framework Preset | Create React App |
+| Build Command | `npm run build` |
+| Output Directory | `build` |
+| Install Command | `npm install` |
+
+If these are wrong (e.g. Output Directory = `src`), Vercel will show raw source code instead of the app.
+
+After fixing config, redeploy: **Deployments → ⋯ → Redeploy**.
+
+### Troubleshooting: seeing raw JavaScript instead of the app
+
+This means the production build was not served. Fix:
+
+1. Set **Output Directory** to `build` (not `src` or `.`)
+2. Ensure **Build Command** is `npm run build`
+3. Add environment variable `CI` = `false` (Build & Development Settings)
+4. Push the latest `vercel.json` and redeploy
+
+### Option B — Deploy with Vercel CLI
+
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
+Follow the prompts. Run `vercel --prod` for production.
+
+### What was configured for Vercel
+
+| File | Purpose |
+|------|---------|
+| `vercel.json` | Builds React app + routes `/api/*` to serverless function |
+| `api/index.js` | Serverless entry that runs the Express/Joi backend |
+| `backend/src/app.js` | Shared Express app (local + Vercel) |
+
+Local development is unchanged — still use two terminals (`npm run server` + `npm start`).
+
+### Alternative: split hosting (no Vercel API setup)
+
+If you prefer minimal config:
+
+| Service | Deploy | Notes |
+|---------|--------|-------|
+| [Vercel](https://vercel.com) or [Netlify](https://netlify.com) | Frontend only | `npm run build` → `build/` |
+| [Render](https://render.com) | Backend only | Root directory: `backend`, start: `npm start` |
+
+Set on the frontend host:
+
+```
+REACT_APP_API_URL=https://your-backend.onrender.com
+```
+
+Then redeploy the frontend.
+
+---
+
 ## License
 
 Private demo project for learning Yup and Joi validation patterns.
