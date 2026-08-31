@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { customValidationSchema } from "../../validations";
 import { useValidationToggle } from "../../hooks/useValidationToggle";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { CustomValidationSection } from "../form-sections/CustomValidationSection";
 import { FormLayout } from "./FormLayout";
 
@@ -10,26 +11,34 @@ export const CustomValidationForm = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     clearErrors,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(customValidationSchema),
   });
 
-  const { validationEnabled, setValidationEnabled, createSubmitHandler } =
+  const { validationEnabled, setValidationEnabled } =
     useValidationToggle(clearErrors);
 
-  const onSubmit = (data) => {
-    console.log("Custom validation:", data);
-  };
+  const { createSubmitHandler, backendStatus, backendMessage } = useFormSubmit({
+    formType: "custom",
+    validationEnabled,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+  });
 
   return (
     <FormLayout
       title="Custom Validation"
-      description="Custom Yup test for amount with up to two decimal places."
+      description="Custom amount rules validated by Yup and Joi."
       validationEnabled={validationEnabled}
       onValidationToggle={setValidationEnabled}
-      onSubmit={createSubmitHandler(handleSubmit, getValues, onSubmit)}
+      backendStatus={backendStatus}
+      backendMessage={backendMessage}
+      onSubmit={createSubmitHandler}
     >
       <CustomValidationSection register={register} errors={errors} />
     </FormLayout>

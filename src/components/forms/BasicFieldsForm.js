@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { basicFieldsSchema } from "../../validations";
 import { useValidationToggle } from "../../hooks/useValidationToggle";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { BasicFieldsSection } from "../form-sections/BasicFieldsSection";
 import { FormLayout } from "./FormLayout";
 
@@ -10,26 +11,34 @@ export const BasicFieldsForm = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     clearErrors,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(basicFieldsSchema),
   });
 
-  const { validationEnabled, setValidationEnabled, createSubmitHandler } =
+  const { validationEnabled, setValidationEnabled } =
     useValidationToggle(clearErrors);
 
-  const onSubmit = (data) => {
-    console.log("Basic fields:", data);
-  };
+  const { createSubmitHandler, backendStatus, backendMessage } = useFormSubmit({
+    formType: "basic",
+    validationEnabled,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+  });
 
   return (
     <FormLayout
       title="Basic Fields"
-      description="String, email, and number validation with Yup."
+      description="Yup validates on the client. Joi validates again on backend submit."
       validationEnabled={validationEnabled}
       onValidationToggle={setValidationEnabled}
-      onSubmit={createSubmitHandler(handleSubmit, getValues, onSubmit)}
+      backendStatus={backendStatus}
+      backendMessage={backendMessage}
+      onSubmit={createSubmitHandler}
     >
       <BasicFieldsSection register={register} errors={errors} />
     </FormLayout>

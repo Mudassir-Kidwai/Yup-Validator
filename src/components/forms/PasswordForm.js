@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { passwordSchema } from "../../validations";
 import { useValidationToggle } from "../../hooks/useValidationToggle";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { PasswordSection } from "../form-sections/PasswordSection";
 import { FormLayout } from "./FormLayout";
 
@@ -10,26 +11,34 @@ export const PasswordForm = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     clearErrors,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(passwordSchema),
   });
 
-  const { validationEnabled, setValidationEnabled, createSubmitHandler } =
+  const { validationEnabled, setValidationEnabled } =
     useValidationToggle(clearErrors);
 
-  const onSubmit = (data) => {
-    console.log("Password:", data);
-  };
+  const { createSubmitHandler, backendStatus, backendMessage } = useFormSubmit({
+    formType: "password",
+    validationEnabled,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+  });
 
   return (
     <FormLayout
       title="Password Validation"
-      description="Regex rules for strong passwords and confirm-password matching."
+      description="Regex rules validated by Yup (frontend) and Joi (backend)."
       validationEnabled={validationEnabled}
       onValidationToggle={setValidationEnabled}
-      onSubmit={createSubmitHandler(handleSubmit, getValues, onSubmit)}
+      backendStatus={backendStatus}
+      backendMessage={backendMessage}
+      onSubmit={createSubmitHandler}
     >
       <PasswordSection register={register} errors={errors} />
     </FormLayout>

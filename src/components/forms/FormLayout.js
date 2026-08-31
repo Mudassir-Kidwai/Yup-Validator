@@ -11,6 +11,8 @@ export const FormLayout = ({
   onSubmit,
   validationEnabled,
   onValidationToggle,
+  backendStatus,
+  backendMessage,
 }) => {
   const formId = title.replace(/\s+/g, "-").toLowerCase();
 
@@ -34,13 +36,26 @@ export const FormLayout = ({
             id={`validation-toggle-help-${formId}`}
             className="text-muted d-block mt-2"
           >
-            Turn off to submit without running Yup rules.
+            Toggle Yup on/off for frontend checks. Backend Joi always runs on
+            submit.
           </Form.Text>
         </Form.Group>
 
       {!validationEnabled && (
         <Alert variant="warning" className="py-2 small">
-          Validation is off. Empty or invalid values can be submitted.
+          Frontend Yup is off. Submit will still be validated by backend Joi.
+        </Alert>
+      )}
+
+      {backendStatus === "success" && (
+        <Alert variant="success" className="py-2 small">
+          {backendMessage}
+        </Alert>
+      )}
+
+      {backendStatus === "error" && (
+        <Alert variant="danger" className="py-2 small">
+          <strong>Backend Joi errors:</strong> {backendMessage}
         </Alert>
       )}
 

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { conditionalSchema } from "../../validations";
 import { useValidationToggle } from "../../hooks/useValidationToggle";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { ConditionalSection } from "../form-sections/ConditionalSection";
 import { FormLayout } from "./FormLayout";
 
@@ -10,6 +11,7 @@ export const ConditionalForm = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     clearErrors,
     setValue,
     watch,
@@ -18,20 +20,27 @@ export const ConditionalForm = () => {
     resolver: yupResolver(conditionalSchema),
   });
 
-  const { validationEnabled, setValidationEnabled, createSubmitHandler } =
+  const { validationEnabled, setValidationEnabled } =
     useValidationToggle(clearErrors);
 
-  const onSubmit = (data) => {
-    console.log("Conditional:", data);
-  };
+  const { createSubmitHandler, backendStatus, backendMessage } = useFormSubmit({
+    formType: "conditional",
+    validationEnabled,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+  });
 
   return (
     <FormLayout
       title="Conditional Validation"
-      description="Pick a car ID to see which field Yup marks as required using .when('car_id')."
+      description="Car ID conditional rules run in Yup and Joi on submit."
       validationEnabled={validationEnabled}
       onValidationToggle={setValidationEnabled}
-      onSubmit={createSubmitHandler(handleSubmit, getValues, onSubmit)}
+      backendStatus={backendStatus}
+      backendMessage={backendMessage}
+      onSubmit={createSubmitHandler}
     >
       <ConditionalSection
         register={register}

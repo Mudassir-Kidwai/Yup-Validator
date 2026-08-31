@@ -11,7 +11,7 @@ function App() {
             Yup Validator Game
           </h1>
           <p className="text-muted mb-0">
-            Switch tabs to test each Yup validation pattern independently.
+            Yup runs in the browser. Joi runs on backend submit.
           </p>
         </header>
 
