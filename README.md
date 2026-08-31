@@ -426,7 +426,28 @@ Users open that link in a browser — no install needed. Form submit hits `/api/
 
 If these are wrong (e.g. Output Directory = `src`), Vercel will show raw source code instead of the app.
 
-After fixing config, redeploy: **Deployments → ⋯ → Redeploy**.
+`CI=false` is already set in `vercel.json` and the `vercel-build` script — **you do not need to add it manually** in Environment Variables.
+
+### Redeploy (pick one)
+
+**Option 1 — Git push (easiest if GitHub is connected)**
+
+```bash
+git add .
+git commit -m "Fix Vercel build configuration"
+git push
+```
+
+Vercel redeploys automatically after each push.
+
+**Option 2 — Redeploy from Vercel dashboard**
+
+1. Open [vercel.com/dashboard](https://vercel.com/dashboard)
+2. Click your project (**yup-validator**)
+3. Open the **Deployments** tab
+4. On the latest deployment, click the **⋯** (three dots) menu
+5. Click **Redeploy**
+6. Confirm **Redeploy**
 
 ### Troubleshooting: seeing raw JavaScript instead of the app
 
@@ -434,8 +455,8 @@ This means the production build was not served. Fix:
 
 1. Set **Output Directory** to `build` (not `src` or `.`)
 2. Ensure **Build Command** is `npm run build`
-3. Add environment variable `CI` = `false` (Build & Development Settings)
-4. Push the latest `vercel.json` and redeploy
+3. Push the latest code (includes `vercel.json` + `vercel-build` with `CI=false`)
+4. Redeploy from dashboard or wait for auto-deploy after git push
 
 ### Option B — Deploy with Vercel CLI
 
