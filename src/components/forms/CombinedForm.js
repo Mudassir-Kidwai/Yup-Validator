@@ -54,6 +54,7 @@ export const CombinedForm = () => {
         errors={errors}
         setValue={setValue}
         watch={watch}
+        clearErrors={clearErrors}
       />
       <hr className="my-4" />
       <CustomValidationSection register={register} errors={errors} />

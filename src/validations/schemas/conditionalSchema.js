@@ -14,8 +14,9 @@ import * as Yup from "yup";
  *
  * Try it:
  * 1. Pick a car from the dropdown.
- * 2. Leave the mapped field empty and submit.
- * 3. Yup should show an error only for that mapped field.
+ * 2. Only the mapped field stays enabled; others are cleared and disabled.
+ * 3. Leave the mapped field empty and submit.
+ * 4. Yup should show an error only for that mapped field.
  */
 const conditionalSchema = Yup.object().shape({
   // Step 1: user must choose a car before conditional rules can run

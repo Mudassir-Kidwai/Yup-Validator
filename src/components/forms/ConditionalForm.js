@@ -47,6 +47,7 @@ export const ConditionalForm = () => {
         errors={errors}
         setValue={setValue}
         watch={watch}
+        clearErrors={clearErrors}
       />
     </FormLayout>
   );

@@ -38,6 +38,24 @@
   background-color: #f8fbff;
 }
 
+.disabled-validation-field {
+  opacity: 0.65;
+}
+
+.disabled-validation-field .form-control:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.backend-status-alert {
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+.backend-status-alert--fading {
+  opacity: 0;
+}
+
 .validation-toggle {
   display: flex;
   align-items: center;

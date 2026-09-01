@@ -2,6 +2,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import { BackendStatusAlert } from "./BackendStatusAlert";
 import { ValidationToggle } from "./ValidationToggle";
 
 export const FormLayout = ({
@@ -41,33 +42,23 @@ export const FormLayout = ({
           </Form.Text>
         </Form.Group>
 
-      {!validationEnabled && (
-        <Alert variant="warning" className="py-2 small">
-          Frontend Yup is off. Submit will still be validated by backend Joi.
-        </Alert>
-      )}
+        {!validationEnabled && (
+          <Alert variant="warning" className="py-2 small">
+            Frontend Yup is off. Submit will still be validated by backend Joi.
+          </Alert>
+        )}
 
-      {backendStatus === "success" && (
-        <Alert variant="success" className="py-2 small">
-          {backendMessage}
-        </Alert>
-      )}
+        <Form onSubmit={onSubmit} noValidate>
+          {children}
+          <div className="d-grid mt-3">
+            <Button type="submit" variant="primary" size="lg">
+              Submit
+            </Button>
+          </div>
+        </Form>
+        <BackendStatusAlert status={backendStatus} message={backendMessage} />
 
-      {backendStatus === "error" && (
-        <Alert variant="danger" className="py-2 small">
-          <strong>Backend Joi errors:</strong> {backendMessage}
-        </Alert>
-      )}
-
-      <Form onSubmit={onSubmit} noValidate>
-        {children}
-        <div className="d-grid mt-3">
-          <Button type="submit" variant="primary" size="lg">
-            Submit
-          </Button>
-        </div>
-      </Form>
-    </Card.Body>
-  </Card>
+      </Card.Body>
+    </Card>
   );
 };

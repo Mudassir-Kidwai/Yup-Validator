@@ -10,7 +10,7 @@ export const CONDITIONAL_CAR_OPTIONS = [
     fieldLabel: "First Field",
     validationRule: "required when car_id is 1",
     description:
-      "When Volvo is selected, first_field becomes required. Other fields stay optional.",
+      "When Volvo is selected, only first_field is enabled and required.",
   },
   {
     value: "2",
@@ -19,7 +19,7 @@ export const CONDITIONAL_CAR_OPTIONS = [
     fieldLabel: "Second Field",
     validationRule: "required when car_id is 2",
     description:
-      "When Audi is selected, second_field becomes required. Uses default otherwise behavior.",
+      "When Audi is selected, only second_field is enabled and required.",
   },
   {
     value: "3",
@@ -28,7 +28,7 @@ export const CONDITIONAL_CAR_OPTIONS = [
     fieldLabel: "Third Field",
     validationRule: "required when car_id is 3",
     description:
-      "When Toyota is selected, third_field becomes required. Other fields stay optional.",
+      "When Toyota is selected, only third_field is enabled and required.",
   },
   {
     value: "4",
@@ -37,9 +37,13 @@ export const CONDITIONAL_CAR_OPTIONS = [
     fieldLabel: "Fourth Field",
     validationRule: "required when car_id is 4",
     description:
-      "When Ferrari is selected, fourth_field becomes required. Other fields stay optional.",
+      "When Ferrari is selected, only fourth_field is enabled and required.",
   },
 ];
+
+export const CONDITIONAL_FIELD_NAMES = CONDITIONAL_CAR_OPTIONS.map(
+  (car) => car.fieldName
+);
 
 export const getCarOptionById = (carId) =>
   CONDITIONAL_CAR_OPTIONS.find((car) => car.value === carId);
